@@ -5,3 +5,8 @@
 `sudo apt-get install ros-ROSVERSION-vrpn`
 
 附带的ekf_pose是和px4controller包里的是一样的，接收odometry类型数据
+
+Author:
+[Jason-XY](https://github.com/Jason-xy)
+
+[Haojia LI](https://github.com/li-haojia)
