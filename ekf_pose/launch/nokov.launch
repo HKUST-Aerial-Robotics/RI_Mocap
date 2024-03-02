@@ -1,0 +1,42 @@
+<launch>
+    
+    <node pkg="ekf" type="ekf" name="ekf" output="screen">
+        <remap from="~imu" to="/mavros/imu/data"/>
+        <remap from="~bodyodometry" to="/vrpn_client_node/UAV250/pose"/> 
+        <remap from="~payload_ball/twist" to="/vrpn_client_node/payload_ball/twist"/> 
+        <remap from="~payload_ball/pose" to="/vrpn_client_node/payload_ball/pose"/> 
+        <remap from="~payload_ball/accel" to="/vrpn_client_node/payload_ball/accel"/> 
+        <remap from="~ekf_odom" to="/ekf/ekf_odom"/>
+        <remap from="~odom_payload" to="/ekf/odom_payload"/>
+        <remap from="~cable_info" to="/ekf/cable_info"/>
+        <remap from="~load_imu" to="/ekf/load_imu"/>
+        <remap from="~correction_imu" to="/ekf/drone_imu"/>
+        <!-- parms -->
+        <rosparam file="$(find ekf)/launch/PX4_vio_drone.yaml" command="load" />
+
+        <!--body in IMU frame-->
+        <!--imu_trans = vio in imu + estimate param (u1)-->
+        <param name="imu_trans_x" type="double" value="0.0079"/> 
+        <param name="imu_trans_y" type="double" value="0.0024"/> 
+        <param name="imu_trans_z" type="double" value="-0.0578908"/> 
+
+         <!--when filter_factor = 1.0 means only use real_time data-->
+        <param name="filter_factor" type="double" value="0.8"/> 
+        <param name="filter_factor_p" type="double" value="0.8"/> 
+        
+        <param name="offset_x" type="double" value="0.0"/> 
+        <param name="offset_y" type="double" value="0.0"/> 
+        <param name="offset_z" type="double" value="0.00"/> 
+        <param name="l_length" type="double" value="0.60277267"/> 
+
+        <!-- Qt -->
+        <param name="gyro_cov" type="double" value="0.02"/> 
+        <param name="acc_cov" type="double" value="0.5"/>
+        <!-- Rt -->
+        <param name="position_cov" type="double" value="0.01"/>
+        <param name="q_rp_cov" type="double" value="0.01"/>
+        <param name="q_yaw_cov" type="double" value="0.01"/>   
+
+    </node>
+
+</launch>
